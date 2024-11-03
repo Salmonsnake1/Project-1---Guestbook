@@ -6,19 +6,39 @@ const port = process.env.PORT || 3000; // set from environ var or from default 3
 
 app.use(express.json()); // parse json 
 app.use(express.urlencoded({ extended: true })); // parse URL-encoded
+app.use(express.static(__dirname));
 
 const baseStyles = `
     <style>
         body { font-family: Arial, sans-serif; background-color: #f2f2f2; color: #333; }
-        .container { display: flex; max-width: 1000px; margin: 0 auto; padding: 20px; }
-        .sidebar { width: 200px; padding-right: 20px; }
-        .sidebar a { display: block; padding: 10px; margin-bottom: 10px; background-color: #ddd; color: #333; text-decoration: none; text-align: center; border-radius: 5px; }
-        .sidebar a:hover { background-color: #bbb; }
+        .container { display: flex; flex-direction: column; max-width: 1000px; margin: 0 auto; padding: 20px; }
         .content { flex: 1; padding: 20px; background-color: #fff; border-radius: 5px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); }
-        h1 { color: #444; }
+        .header { text-align: center; margin-bottom: 20px; }
+        .header h1 { color: #444; font-size: 2em; }
+        .sidebar { display: flex; justify-content: center; gap: 15px; margin-bottom: 20px; }
+        .sidebar a { padding: 10px 15px; background-color: #ddd; color: #333; text-decoration: none; border-radius: 5px; }
+        .sidebar a:hover { background-color: #bbb; }
+        
+        h2 { font-size: 1.5em; color: #333; text-align: center; }
+        .content h1 { color: #444; margin-top: 0; text-align: center; }
         p { line-height: 1.6; margin-bottom: 15px; }
         table { width: 100%; margin-top: 20px; }
+        .footer { margin-top: 20px; text-align: center; font-size: 0.9em; color: #777; }
+        .footer p { margin: 0; padding: 10px; background-color: #f2f2f2; border-top: 1px solid #ddd; }
     </style>
+`;
+
+const header = `
+    <header>
+        <h2>My Guestbook App</h2>
+    </header>
+`;
+
+// Reusable footer for every page
+const footer = `
+    <footer class="footer">
+        <p>Dyson's Hotels is a made-up hotel for the made-up corporation. Enjoy the imaginary luxury!</p>
+    </footer>
 `;
 
 const sidebar = `
@@ -43,16 +63,15 @@ app.get('/', (req, res) => {
             </head>
             <body>
                 <div class="container">
+                    ${header}
                     ${sidebar}
                     <div class="content">
-                        
                         <h1>Welcome to Dyson's Hotels</h1>
+                        <img src="/testimg.jpg" alt="Hotel Image" style="max-width:100%; margin-top: 15px; border-radius: 5px;" />
                         <p>Our hotels are designed with your comfort in mind, offering world-class amenities and exceptional service at every location. Explore our beautiful rooms, enjoy fine dining, and relax in luxury at Dyson's Hotels.</p>
-                        <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam ultrices tincidunt mi et tempor. Maecenas ut tortor in odio sollicitudin mollis. Nulla in libero porta, finibus nisi id, iaculis nulla. Fusce at scelerisque nibh, ac lobortis est. Duis viverra, felis ultrices tincidunt dapibus, nibh augue suscipit libero, eget gravida urna velit id diam. Suspendisse a ante mattis, facilisis magna quis, tincidunt eros. Nullam mattis nisi tristique est ullamcorper lacinia. Maecenas posuere euismod nisl, sit amet dignissim ipsum commodo a.
-Nunc mattis aliquam ipsum, semper imperdiet lectus mollis vel. Suspendisse enim justo, accumsan in scelerisque eu, porttitor sed augue. Mauris non vestibulum ipsum, sed mollis arcu. Nulla odio eros, ultricies quis scelerisque non, porta ut sem. In vehicula nisi viverra congue dapibus. Nam risus mauris, vulputate eget libero eu, accumsan fringilla leo. Morbi turpis nulla, feugiat in pharetra ut, aliquam tincidunt tortor. Fusce at orci et sapien dignissim dapibus. Morbi sed condimentum elit. Curabitur mollis lorem at ex ultricies, elementum egestas neque interdum. Donec venenatis tempus accumsan. Cras eget enim sed ante tempus vestibulum.
-Aliquam ac mi ut ex tincidunt tempus. Vestibulum pulvinar lorem vitae metus malesuada, in vulputate nulla dapibus. Curabitur elementum eleifend feugiat. Integer dignissim neque vel ex lobortis, at interdum mauris mattis. Sed in dictum odio. Donec eget sem vitae dui faucibus condimentum a in arcu. Vestibulum orci quam, imperdiet nec maximus eget, pulvinar eu erat. Proin mauris massa, commodo a blandit vel, eleifend eget libero. Integer a erat ante.
-Vestibulum velit nisl, tincidunt non dui ac, condimentum vulputate sem. Aenean ut iaculis nulla. Sed varius, libero ut interdum tincidunt, lorem nulla euismod leo, ac rhoncus est elit ut orci. Mauris blandit dolor et gravida tristique. Etiam nec risus velit. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Ut elit lorem, ornare sed orci id, viverra placerat lorem. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Sed eu sagittis neque, vel luctus mi. Proin nec urna condimentum, venenatis justo eget, feugiat lectus. Nullam sagittis lacus dolor, ac euismod purus pulvinar id. Proin in nisl placerat ipsum vulputate molestie et aliquet leo. Praesent sed nisi interdum, pellentesque ipsum non, vulputate mauris. Integer et massa rutrum, pulvinar nunc sit amet, semper ex. Etiam vel felis neque. </p>                        
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam ultrices tincidunt mi et tempor. Maecenas ut tortor in odio sollicitudin mollis. Nulla in libero porta, finibus nisi id, iaculis nulla. Fusce at scelerisque nibh, ac lobortis est. Duis viverra, felis ultrices tincidunt dapibus, nibh augue suscipit libero, eget gravida urna velit id diam. Suspendisse a ante mattis, facilisis magna quis, tincidunt eros. Nullam mattis nisi tristique est ullamcorper lacinia. Maecenas posuere euismod nisl, sit amet dignissim ipsum commodo a. Nunc mattis aliquam ipsum, semper imperdiet lectus mollis vel. Suspendisse enim justo, accumsan in scelerisque eu, porttitor sed augue. Mauris non vestibulum ipsum, sed mollis arcu. Nulla odio eros, ultricies quis scelerisque non, porta ut sem. In vehicula nisi viverra congue dapibus. Nam risus mauris, vulputate eget libero eu, accumsan fringilla leo. Morbi turpis nulla, feugiat in pharetra ut, aliquam tincidunt tortor. Fusce at orci et sapien dignissim dapibus. Morbi sed condimentum elit. Curabitur mollis lorem at ex ultricies, elementum egestas neque interdum. Donec venenatis tempus accumsan. Cras eget enim sed ante tempus vestibulum. Aliquam ac mi ut ex tincidunt tempus. Vestibulum pulvinar lorem vitae metus malesuada, in vulputate nulla dapibus. Curabitur elementum eleifend feugiat. Integer dignissim neque vel ex lobortis, at interdum mauris mattis. Sed in dictum odio. Donec eget sem vitae dui faucibus condimentum a in arcu. Vestibulum orci quam, imperdiet nec maximus eget, pulvinar eu erat. Proin mauris massa, commodo a blandit vel, eleifend eget libero. Integer a erat ante. Vestibulum velit nisl, tincidunt non dui ac, condimentum vulputate sem. Aenean ut iaculis nulla. Sed varius, libero ut interdum tincidunt, lorem nulla euismod leo, ac rhoncus est elit ut orci. Mauris blandit dolor et gravida tristique. Etiam nec risus velit. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Ut elit lorem, ornare sed orci id, viverra placerat lorem. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Sed eu sagittis neque, vel luctus mi. Proin nec urna condimentum, venenatis justo eget, feugiat lectus. Nullam sagittis lacus dolor, ac euismod purus pulvinar id. Proin in nisl placerat ipsum vulputate molestie et aliquet leo. Praesent sed nisi interdum, pellentesque ipsum non, vulputate mauris. Integer et massa rutrum, pulvinar nunc sit amet, semper ex. Etiam vel felis neque. </p>
                     </div>
+                    ${footer}
                 </div>
             </body>
         </html>
@@ -88,6 +107,7 @@ app.get('/guestbook', (req, res) => {
                 </head>
                 <body>
                     <div class="container">
+                        ${header}
                         ${sidebar}
                         <div class="content">
                         
@@ -107,6 +127,7 @@ app.get('/guestbook', (req, res) => {
                                 </tbody>
                             </table>
                         </div>
+                        ${footer}
                     </div>
                 </body>
             </html>
@@ -125,6 +146,7 @@ app.get('/newmessage', (req, res) => {
             </head>
             <body>
                 <div class="container">
+                    ${header}
                     ${sidebar}
                     <div class="content">
                         <h1>Add a New Message</h1>
@@ -143,6 +165,7 @@ app.get('/newmessage', (req, res) => {
                             </fieldset>
                         </form>
                     </div>
+                    ${footer}
                 </div>
             </body>
         </html>
@@ -204,6 +227,7 @@ app.get('/ajaxmessage', (req, res) => {
             </head>
             <body>
                 <div class="container">
+                    ${header}
                     ${sidebar}
                     <div class="content">
                         
@@ -265,6 +289,7 @@ app.get('/ajaxmessage', (req, res) => {
                             });
                         </script>
                     </div>
+                    ${footer}
                 </div>
             </body>
         </html>
