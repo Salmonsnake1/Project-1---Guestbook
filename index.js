@@ -18,7 +18,6 @@ const baseStyles = `
         .sidebar { display: flex; justify-content: center; gap: 15px; margin-bottom: 20px; }
         .sidebar a { padding: 10px 15px; background-color: #ddd; color: #333; text-decoration: none; border-radius: 5px; }
         .sidebar a:hover { background-color: #bbb; }
-        
         h2 { font-size: 1.5em; color: #333; text-align: center; }
         .content h1 { color: #444; margin-top: 0; text-align: center; }
         p { line-height: 1.6; margin-bottom: 15px; }
@@ -34,7 +33,6 @@ const header = `
     </header>
 `;
 
-// Reusable footer for every page
 const footer = `
     <footer class="footer">
         <p>Dyson's Hotels is a made-up hotel for the made-up corporation. Enjoy the imaginary luxury!</p>
